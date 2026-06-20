@@ -1,0 +1,27 @@
+{
+  "release_id": "rel_9f3ba5b47b9e",
+  "tier": 4,
+  "version": "v3.0.0",
+  "previous_version": "v2.9.0",
+  "ports": [
+    "所有口岸"
+  ],
+  "traffic_ratio": 1.0,
+  "deployed_at": "2026-06-20T09:24:49",
+  "success": true,
+  "port_records": [
+    {
+      "release_id": "rel_9f3ba5b47b9e",
+      "port_name": "所有口岸",
+      "tier": 4,
+      "version": "v3.0.0",
+      "previous_version": "v2.9.0",
+      "deploy_started_at": "2026-06-20T09:24:49",
+      "deploy_completed_at": "2026-06-20T09:24:49",
+      "monitoring_started_at": "",
+      "monitoring_ended_at": "",
+      "rollback_completed_at": "",
+      "status": "deployed"
+    }
+  ]
+}

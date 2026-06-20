@@ -334,35 +334,47 @@ class ReleasePlatform:
         record = self._load_release(release_id)
         if record is None:
             raise ValueError(f"发布记录不存在: {release_id}")
-        if record.status != ReleaseStatus.CHECK_PASSED:
-            return {"success": False, "reason": f"状态不正确: {record.status.value}"}
+        if record.status not in (ReleaseStatus.CHECK_PASSED, ReleaseStatus.PENDING_APPROVAL):
+            return {"success": False, "reason": f"状态不正确: {record.status.value}，无法自动审批"}
 
         flow = self.approval.load_flow(release_id)
         if flow is None:
             return {"success": False, "reason": "审批流不存在"}
 
         if flow.release_type == ReleaseType.REGULAR:
+            role_name_map = {
+                "customs": "关务审批",
+                "operations": "运营审批",
+                "finance": "财务审批",
+                "tech": "技术审批",
+            }
             logger.info("自动完成常规审批 (顺序: 关务 → 运营 → 财务 → 技术)")
             for role_enum in flow.records:
                 if role_enum.status.value != "pending":
                     continue
                 role = role_enum.role.value
+                role_name = role_name_map.get(role, role)
                 approver = f"{role}_auto"
+                logger.info("  ▶ %s 审批中...", role_name)
                 try:
                     record = self.approve_release(
                         release_id=release_id,
                         role=role,
                         approver=approver,
-                        comment=f"自动审批 - {role}评估通过",
+                        comment=f"自动审批 - {role_name}评估通过",
                     )
                 except Exception as e:
-                    return {"success": False, "reason": f"自动审批失败: {e}"}
+                    return {"success": False, "reason": f"自动审批失败({role_name}): {e}"}
                 if record.status == ReleaseStatus.APPROVAL_REJECTED:
-                    return {"success": False, "reason": "审批被驳回"}
+                    return {"success": False, "reason": f"{role_name}审批被驳回"}
+                logger.info("  ✅ %s 审批通过", role_name)
 
-        if record.status != ReleaseStatus.APPROVAL_PASSED:
-            return {"success": False, "reason": f"审批未完成，当前状态: {record.status.value}"}
+        record = self._load_release(release_id)
+        if record is None or record.status != ReleaseStatus.APPROVAL_PASSED:
+            current_status = record.status.value if record else "unknown"
+            return {"success": False, "reason": f"审批未完成，当前状态: {current_status}"}
 
+        logger.info("审批全部完成，开始灰度发布...")
         result = self.execute_gray_release(release_id)
         return {"success": True, "release_result": result}
 
@@ -797,6 +809,14 @@ def cmd_report(args, platform: ReleasePlatform):
                 "json": "📄", "csv": "📊", "excel": "📗", "pdf": "📕",
             }.get(fmt, "📄")
             print(f"│ {icon} {fmt.upper():<5}: {full_path}")
+        charts_dir = os.path.join(os.path.dirname(file_paths.get("json", ".")), "charts")
+        if os.path.isdir(charts_dir):
+            report_base = report.get("report_id", "")
+            for cf in sorted(os.listdir(charts_dir)):
+                if report_base in cf and cf.endswith(".png"):
+                    chart_full = os.path.abspath(os.path.join(charts_dir, cf))
+                    print(f"│ 📈 趋势图: {chart_full}")
+                    break
 
     if report.get('failure_rate_by_port'):
         print("├─────────────────────────────────────────────────┤")
@@ -839,6 +859,20 @@ def cmd_release_history(args, platform: ReleasePlatform):
 
     if not records:
         print("\n❌ 未找到匹配的发布记录")
+        filters = []
+        if args.version:
+            filters.append(f"版本={args.version}")
+        if args.port:
+            filters.append(f"口岸={args.port}")
+        if args.start_date or args.end_date:
+            filters.append(f"时间={args.start_date or '*'}~{args.end_date or '*'}")
+        if args.release_id:
+            filters.append(f"ID={args.release_id}")
+        if filters:
+            filter_str = ", ".join(filters)
+            print(f"   筛选条件: {filter_str}")
+            if args.port:
+                print(f"   💡 提示: 指定口岸「{args.port}」无匹配记录，可能该口岸尚未进行灰度部署")
         return
 
     print(f"\n🔍 找到 {len(records)} 条发布记录")
@@ -866,20 +900,55 @@ def cmd_release_history(args, platform: ReleasePlatform):
 
         approval = rec.get('approval', {})
         if approval.get('records'):
+            status_label = {
+                "pending": "待审批",
+                "approved": "✅ 已通过",
+                "rejected": "❌ 已驳回",
+                "skipped": "⏳ 待补签",
+                "post_signed": "📝 已补签",
+            }
+            critical_label = {True: "★关键", False: "  "}
             print(f"  审批记录:")
             for ar in approval['records']:
-                print(f"    - {ar['role']:12s} {ar['status']:12s} {ar.get('approver', ''):12s} {ar.get('comment', '')[:30]}")
+                s = status_label.get(ar['status'], ar['status'])
+                c = critical_label.get(ar.get('is_critical'), "  ")
+                approver_str = ar.get('approver', '')
+                comment_str = ar.get('comment', '')[:40]
+                print(f"    {c} {ar['role']:12s} {s:12s} {approver_str:16s} {comment_str}")
 
         ports = rec.get('port_records', [])
         if ports:
-            print(f"  口岸记录:")
+            print(f"  口岸灰度记录:")
+            port_status_label = {
+                "deployed": "已部署",
+                "monitoring": "监控中",
+                "released": "全量发布",
+                "circuit_break": "已熔断",
+                "rolled_back": "已回滚",
+            }
             for pr in ports:
+                ps = port_status_label.get(pr.get('status', ''), pr.get('status', ''))
+                print(f"    ┌ {pr['port_name']}  tier={pr['tier']}  [{ps}]")
+                if pr.get('deploy_started_at'):
+                    print(f"    │ 灰度发布时间: {pr['deploy_started_at']}")
+                if pr.get('deploy_completed_at'):
+                    print(f"    │ 部署完成时间: {pr['deploy_completed_at']}")
+                if pr.get('monitoring_started_at'):
+                    print(f"    │ 监控开始时间: {pr['monitoring_started_at']}")
                 cb = pr.get('circuit_break')
-                cb_text = ""
                 if cb:
-                    reason = reason_map.get(cb['reason'], cb['reason'])
-                    cb_text = f" → 熔断: {reason} ({cb['trigger_value']:.4f} > {cb['threshold']:.4f})"
-                print(f"    - {pr['port_name']:12s} tier={pr['tier']}  {pr['status']:12s} {pr.get('deploy_started_at', '')[:19]} {cb_text}")
+                    reason = reason_map.get(cb.get('reason', ''), cb.get('reason', ''))
+                    print(f"    │ 熔断原因:     {reason}")
+                    print(f"    │ 熔断触发值:   {cb.get('trigger_value', 0):.4f} > 阈值 {cb.get('threshold', 0):.4f}")
+                    if cb.get('triggered_at'):
+                        print(f"    │ 熔断时间:     {cb['triggered_at']}")
+                    if cb.get('rollback_version'):
+                        print(f"    │ 回滚至版本:   {cb['rollback_version']}")
+                    if cb.get('rollback_completed_at'):
+                        print(f"    │ 回滚完成时间: {cb['rollback_completed_at']}")
+                if pr.get('rollback_completed_at') and not cb:
+                    print(f"    │ 回滚完成时间: {pr['rollback_completed_at']}")
+                print(f"    └")
 
         cbs = rec.get('circuit_break_events', [])
         if cbs:
@@ -955,7 +1024,7 @@ def cmd_full_flow(args, platform: ReleasePlatform):
         print()
         return
     elif record_a and record_a.status in (ReleaseStatus.CHECK_PASSED, ReleaseStatus.PENDING_APPROVAL):
-        print("\n✅ 前置校验通过，自动完成审批并进入灰度发布...")
+        print("\n✅ 前置校验通过，开始自动审批...")
         try:
             result_a = platform.auto_approve_and_release(record_a.release_id)
             if result_a.get("success"):
@@ -963,8 +1032,12 @@ def cmd_full_flow(args, platform: ReleasePlatform):
                 print(f"\n✅ 场景A完成: {'全量发布成功 ✓' if release_ok else '熔断触发，已自动回滚'}")
             else:
                 print(f"\n❌ 场景A未能完成: {result_a.get('reason')}")
+                print("\n⚠️  常规发布流程失败，跳过后续场景。")
+                return
         except Exception as e:
             print(f"\n❌ 场景A执行失败: {e}")
+            print("\n⚠️  常规发布流程异常，跳过后续场景。")
+            return
     elif record_a:
         print(f"\n⚠️  场景A状态异常: {record_a.status.value}")
 
@@ -1049,7 +1122,15 @@ def cmd_full_flow(args, platform: ReleasePlatform):
     for fmt, path in sorted(report.get("file_paths", {}).items()):
         full_path = os.path.abspath(path)
         icon = {"json": "📄", "csv": "📊", "excel": "📗", "pdf": "📕"}.get(fmt, "📄")
-        print(f"│ {icon} {fmt.upper():<5}: {full_path[-45:]:<45} │")
+        print(f"│ {icon} {fmt.upper():<5}: {full_path}")
+    report_id = report.get("report_id", "")
+    charts_dir = os.path.join("reports", "weekly", "charts")
+    if os.path.isdir(charts_dir):
+        for cf in sorted(os.listdir(charts_dir)):
+            if report_id in cf and cf.endswith(".png"):
+                chart_full = os.path.abspath(os.path.join(charts_dir, cf))
+                print(f"│ 📈 趋势图: {chart_full}")
+                break
     print("└─────────────────────────────────────────┘")
 
     print()

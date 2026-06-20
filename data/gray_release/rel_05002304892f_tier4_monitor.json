@@ -1,0 +1,19 @@
+{
+  "release_id": "rel_05002304892f",
+  "tier": 4,
+  "port_name": "所有口岸",
+  "snapshots_count": 1,
+  "circuit_break_triggered": false,
+  "circuit_break_event": null,
+  "snapshots": [
+    {
+      "timestamp": "2026-06-20T09:24:54",
+      "port_name": "所有口岸",
+      "declaration_failure_rate": 0.0231,
+      "clearance_delay_rate": 0.0325,
+      "manifest_anomaly_rate": 0.017
+    }
+  ],
+  "monitoring_started_at": "2026-06-20T09:24:54",
+  "monitoring_ended_at": "2026-06-20T09:24:54"
+}

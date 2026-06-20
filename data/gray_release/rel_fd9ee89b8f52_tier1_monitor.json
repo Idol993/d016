@@ -1,0 +1,19 @@
+{
+  "release_id": "rel_fd9ee89b8f52",
+  "tier": 1,
+  "port_name": "昆明口岸",
+  "snapshots_count": 1,
+  "circuit_break_triggered": false,
+  "circuit_break_event": null,
+  "snapshots": [
+    {
+      "timestamp": "2026-06-20T09:24:49",
+      "port_name": "昆明口岸",
+      "declaration_failure_rate": 0.0155,
+      "clearance_delay_rate": 0.0624,
+      "manifest_anomaly_rate": 0.0064
+    }
+  ],
+  "monitoring_started_at": "2026-06-20T09:24:49",
+  "monitoring_ended_at": "2026-06-20T09:24:49"
+}

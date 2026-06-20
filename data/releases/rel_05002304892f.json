@@ -1,0 +1,23 @@
+{
+  "release_id": "rel_05002304892f",
+  "version": "v3.0.0",
+  "previous_version": "v2.9.0",
+  "release_type": "regular",
+  "status": "full_released",
+  "applicant": "demo_user",
+  "apply_time": "2026-06-20T09:24:54",
+  "finish_time": "2026-06-20T09:24:54",
+  "emergency_reason": "",
+  "approval_first_at": "2026-06-20T09:24:54",
+  "approval_last_at": "2026-06-20T09:24:54",
+  "approval_duration_minutes": 0.0,
+  "port_results": {
+    "昆明口岸": true,
+    "南宁口岸": true,
+    "上海口岸": true,
+    "宁波口岸": true,
+    "深圳口岸": true,
+    "广州口岸": true,
+    "所有口岸": true
+  }
+}

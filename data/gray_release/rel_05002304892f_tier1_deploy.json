@@ -1,0 +1,41 @@
+{
+  "release_id": "rel_05002304892f",
+  "tier": 1,
+  "version": "v3.0.0",
+  "previous_version": "v2.9.0",
+  "ports": [
+    "昆明口岸",
+    "南宁口岸"
+  ],
+  "traffic_ratio": 0.05,
+  "deployed_at": "2026-06-20T09:24:54",
+  "success": true,
+  "port_records": [
+    {
+      "release_id": "rel_05002304892f",
+      "port_name": "昆明口岸",
+      "tier": 1,
+      "version": "v3.0.0",
+      "previous_version": "v2.9.0",
+      "deploy_started_at": "2026-06-20T09:24:54",
+      "deploy_completed_at": "2026-06-20T09:24:54",
+      "monitoring_started_at": "",
+      "monitoring_ended_at": "",
+      "rollback_completed_at": "",
+      "status": "deployed"
+    },
+    {
+      "release_id": "rel_05002304892f",
+      "port_name": "南宁口岸",
+      "tier": 1,
+      "version": "v3.0.0",
+      "previous_version": "v2.9.0",
+      "deploy_started_at": "2026-06-20T09:24:54",
+      "deploy_completed_at": "2026-06-20T09:24:54",
+      "monitoring_started_at": "",
+      "monitoring_ended_at": "",
+      "rollback_completed_at": "",
+      "status": "deployed"
+    }
+  ]
+}

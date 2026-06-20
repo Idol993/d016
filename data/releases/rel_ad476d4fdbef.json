@@ -1,0 +1,15 @@
+{
+  "release_id": "rel_ad476d4fdbef",
+  "version": "v3.0.0",
+  "previous_version": "v2.9.0",
+  "release_type": "regular",
+  "status": "check_failed",
+  "applicant": "demo_user",
+  "apply_time": "2026-06-20T09:24:53",
+  "finish_time": "",
+  "emergency_reason": "",
+  "approval_first_at": "",
+  "approval_last_at": "",
+  "approval_duration_minutes": 0.0,
+  "port_results": {}
+}

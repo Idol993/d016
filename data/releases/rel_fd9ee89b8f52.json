@@ -1,0 +1,20 @@
+{
+  "release_id": "rel_fd9ee89b8f52",
+  "version": "v3.0.0-hotfix",
+  "previous_version": "v2.9.0",
+  "release_type": "hotfix",
+  "status": "rolled_back",
+  "applicant": "admin",
+  "apply_time": "2026-06-20T09:24:49",
+  "finish_time": "",
+  "emergency_reason": "紧急修复深圳口岸报关接口异常",
+  "approval_first_at": "2026-06-20T09:24:49",
+  "approval_last_at": "2026-06-20T09:24:49",
+  "approval_duration_minutes": 0.0,
+  "port_results": {
+    "昆明口岸": true,
+    "南宁口岸": true,
+    "上海口岸": false,
+    "宁波口岸": false
+  }
+}

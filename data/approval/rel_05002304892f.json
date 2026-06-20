@@ -1,0 +1,43 @@
+{
+  "release_id": "rel_05002304892f",
+  "release_type": "regular",
+  "current_step": 4,
+  "reason": "季度功能迭代",
+  "hotfix_mode": null,
+  "hotfix_critical_roles": [],
+  "post_sign_deadline": "",
+  "records": [
+    {
+      "role": "customs",
+      "approver": "customs_auto",
+      "status": "approved",
+      "comment": "自动审批 - 关务审批评估通过",
+      "approved_at": "2026-06-20T09:24:54",
+      "is_critical": true
+    },
+    {
+      "role": "operations",
+      "approver": "operations_auto",
+      "status": "approved",
+      "comment": "自动审批 - 运营审批评估通过",
+      "approved_at": "2026-06-20T09:24:54",
+      "is_critical": false
+    },
+    {
+      "role": "finance",
+      "approver": "finance_auto",
+      "status": "approved",
+      "comment": "自动审批 - 财务审批评估通过",
+      "approved_at": "2026-06-20T09:24:54",
+      "is_critical": false
+    },
+    {
+      "role": "tech",
+      "approver": "tech_auto",
+      "status": "approved",
+      "comment": "自动审批 - 技术审批评估通过",
+      "approved_at": "2026-06-20T09:24:54",
+      "is_critical": true
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "drill_id": "drill_47945ceeeeec",
+  "scheduled_at": "2026-06-20T09:24:50",
+  "executed_at": "2026-06-20T09:24:50",
+  "completed_at": "2026-06-20T09:24:51",
+  "status": "success",
+  "target_version": "v3.0.0",
+  "rollback_version": "v2.9.0",
+  "duration_seconds": 1.3,
+  "result_detail": "演练成功: 版本 v3.0.0 -> v2.9.0, 耗时 1.3s, 熔断机制验证通过"
+}

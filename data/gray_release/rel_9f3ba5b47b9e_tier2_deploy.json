@@ -1,0 +1,41 @@
+{
+  "release_id": "rel_9f3ba5b47b9e",
+  "tier": 2,
+  "version": "v3.0.0",
+  "previous_version": "v2.9.0",
+  "ports": [
+    "上海口岸",
+    "宁波口岸"
+  ],
+  "traffic_ratio": 0.2,
+  "deployed_at": "2026-06-20T09:24:49",
+  "success": true,
+  "port_records": [
+    {
+      "release_id": "rel_9f3ba5b47b9e",
+      "port_name": "上海口岸",
+      "tier": 2,
+      "version": "v3.0.0",
+      "previous_version": "v2.9.0",
+      "deploy_started_at": "2026-06-20T09:24:49",
+      "deploy_completed_at": "2026-06-20T09:24:49",
+      "monitoring_started_at": "",
+      "monitoring_ended_at": "",
+      "rollback_completed_at": "",
+      "status": "deployed"
+    },
+    {
+      "release_id": "rel_9f3ba5b47b9e",
+      "port_name": "宁波口岸",
+      "tier": 2,
+      "version": "v3.0.0",
+      "previous_version": "v2.9.0",
+      "deploy_started_at": "2026-06-20T09:24:49",
+      "deploy_completed_at": "2026-06-20T09:24:49",
+      "monitoring_started_at": "",
+      "monitoring_ended_at": "",
+      "rollback_completed_at": "",
+      "status": "deployed"
+    }
+  ]
+}

@@ -157,3 +157,137 @@
 {"timestamp": "2026-06-20T08:55:19", "action": "post_sign", "operator": "finance_manager", "target": "rel_4886f08c79d2", "detail": "角色=finance, 意见=事后补签确认，费用核算无问题", "extra": {}, "hash": "5e4ff47297dd6e96"}
 {"timestamp": "2026-06-20T08:55:19", "action": "post_sign_completed", "operator": "system", "target": "rel_4886f08c79d2", "detail": "全部补签完成", "extra": {}, "hash": "57523d0b3eb95c54"}
 {"timestamp": "2026-06-20T09:07:23", "action": "report_generated", "operator": "system", "target": "rpt_99baff20f0ba", "detail": "", "extra": {}, "hash": "091df88e25f1feb6"}
+{"timestamp": "2026-06-20T09:24:37", "action": "submit_release", "operator": "demo_user", "target": "rel_65fb7e8597c6", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "8e30190666d70038"}
+{"timestamp": "2026-06-20T09:24:37", "action": "pre_check_failed", "operator": "system", "target": "rel_65fb7e8597c6", "detail": "未通过项: 2", "extra": {}, "hash": "214f381fd75c37d5"}
+{"timestamp": "2026-06-20T09:24:49", "action": "submit_release", "operator": "demo_user", "target": "rel_9f3ba5b47b9e", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "9d722616638bfd6f"}
+{"timestamp": "2026-06-20T09:24:49", "action": "pre_check_passed", "operator": "system", "target": "rel_9f3ba5b47b9e", "detail": "", "extra": {}, "hash": "5f349f96c7cf565d"}
+{"timestamp": "2026-06-20T09:24:49", "action": "approve", "operator": "customs_auto", "target": "rel_9f3ba5b47b9e", "detail": "角色=customs, 意见=自动审批 - 关务审批评估通过", "extra": {}, "hash": "148a3ac491590e33"}
+{"timestamp": "2026-06-20T09:24:49", "action": "approve", "operator": "operations_auto", "target": "rel_9f3ba5b47b9e", "detail": "角色=operations, 意见=自动审批 - 运营审批评估通过", "extra": {}, "hash": "23a516bda28f95a2"}
+{"timestamp": "2026-06-20T09:24:49", "action": "approve", "operator": "finance_auto", "target": "rel_9f3ba5b47b9e", "detail": "角色=finance, 意见=自动审批 - 财务审批评估通过", "extra": {}, "hash": "fbc8d91a864e74a6"}
+{"timestamp": "2026-06-20T09:24:49", "action": "approve", "operator": "tech_auto", "target": "rel_9f3ba5b47b9e", "detail": "角色=tech, 意见=自动审批 - 技术审批评估通过", "extra": {}, "hash": "4265e9ede69f1a0d"}
+{"timestamp": "2026-06-20T09:24:49", "action": "approval_completed", "operator": "system", "target": "rel_9f3ba5b47b9e", "detail": "", "extra": {}, "hash": "95a1ffa49825a23b"}
+{"timestamp": "2026-06-20T09:24:49", "action": "gray_release_start", "operator": "system", "target": "rel_9f3ba5b47b9e", "detail": "版本=v3.0.0", "extra": {}, "hash": "7f183633cd7e35d9"}
+{"timestamp": "2026-06-20T09:24:49", "action": "release_completed", "operator": "system", "target": "rel_9f3ba5b47b9e", "detail": "版本=v3.0.0", "extra": {}, "hash": "11c03d1ea1cb85f6"}
+{"timestamp": "2026-06-20T09:24:49", "action": "submit_release", "operator": "admin", "target": "rel_fd9ee89b8f52", "detail": "版本=v3.0.0-hotfix, 类型=hotfix", "extra": {}, "hash": "6949faab61326508"}
+{"timestamp": "2026-06-20T09:24:49", "action": "pre_check_passed", "operator": "system", "target": "rel_fd9ee89b8f52", "detail": "", "extra": {}, "hash": "bd949c6c3617fe75"}
+{"timestamp": "2026-06-20T09:24:49", "action": "approve", "operator": "customs_reviewer", "target": "rel_fd9ee89b8f52", "detail": "角色=customs, 意见=[紧急并行审批] customs评估通过", "extra": {}, "hash": "0a0bb780e90494d1"}
+{"timestamp": "2026-06-20T09:24:49", "action": "approve", "operator": "tech_reviewer", "target": "rel_fd9ee89b8f52", "detail": "角色=tech, 意见=[紧急并行审批] tech评估通过", "extra": {}, "hash": "f8d48ad751f66942"}
+{"timestamp": "2026-06-20T09:24:49", "action": "approval_completed", "operator": "system", "target": "rel_fd9ee89b8f52", "detail": "", "extra": {}, "hash": "3806c027942851e2"}
+{"timestamp": "2026-06-20T09:24:49", "action": "gray_release_start", "operator": "system", "target": "rel_fd9ee89b8f52", "detail": "版本=v3.0.0-hotfix", "extra": {}, "hash": "86f5b52598946572"}
+{"timestamp": "2026-06-20T09:24:50", "action": "circuit_break_rollback", "operator": "system", "target": "rel_fd9ee89b8f52", "detail": "熔断原因=declaration_failure_rate, 影响口岸=['上海口岸', '宁波口岸']", "extra": {}, "hash": "04fd7bf1dca0dca6"}
+{"timestamp": "2026-06-20T09:24:50", "action": "post_sign", "operator": "operations_reviewer", "target": "rel_fd9ee89b8f52", "detail": "角色=operations, 意见=[事后补签] 确认熔断回滚过程合规", "extra": {}, "hash": "c5df5150e59ae7a2"}
+{"timestamp": "2026-06-20T09:24:50", "action": "post_sign_completed", "operator": "system", "target": "rel_fd9ee89b8f52", "detail": "全部补签完成", "extra": {}, "hash": "8b169a7ee461842c"}
+{"timestamp": "2026-06-20T09:24:50", "action": "post_sign", "operator": "finance_reviewer", "target": "rel_fd9ee89b8f52", "detail": "角色=finance, 意见=[事后补签] 确认熔断回滚过程合规", "extra": {}, "hash": "0d4d90b2d0d03b50"}
+{"timestamp": "2026-06-20T09:24:50", "action": "post_sign_completed", "operator": "system", "target": "rel_fd9ee89b8f52", "detail": "全部补签完成", "extra": {}, "hash": "8b169a7ee461842c"}
+{"timestamp": "2026-06-20T09:24:50", "action": "drill_scheduled", "operator": "system", "target": "drill_47945ceeeeec", "detail": "目标=v3.0.0", "extra": {}, "hash": "5ac95bdff18ac75f"}
+{"timestamp": "2026-06-20T09:24:51", "action": "drill_completed", "operator": "system", "target": "drill_47945ceeeeec", "detail": "状态=success, 耗时=1.3s", "extra": {}, "hash": "4b3d38f5a4070a6d"}
+{"timestamp": "2026-06-20T09:24:52", "action": "report_generated", "operator": "system", "target": "rpt_bb646f5b4a42", "detail": "", "extra": {}, "hash": "e84cbd0cd98064cd"}
+{"timestamp": "2026-06-20T09:24:52", "action": "submit_release", "operator": "demo_user", "target": "rel_d795a670dd3c", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "fef9451a4eae3058"}
+{"timestamp": "2026-06-20T09:24:52", "action": "pre_check_failed", "operator": "system", "target": "rel_d795a670dd3c", "detail": "未通过项: 3", "extra": {}, "hash": "0d0ae7c665dcaf39"}
+{"timestamp": "2026-06-20T09:24:52", "action": "submit_release", "operator": "demo_user", "target": "rel_8c534db8777b", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "0e24c7babb3c08b7"}
+{"timestamp": "2026-06-20T09:24:52", "action": "pre_check_failed", "operator": "system", "target": "rel_8c534db8777b", "detail": "未通过项: 3", "extra": {}, "hash": "9deef2160e34e964"}
+{"timestamp": "2026-06-20T09:24:52", "action": "submit_release", "operator": "demo_user", "target": "rel_e3cf38112a9c", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "0a47d26badc355a5"}
+{"timestamp": "2026-06-20T09:24:52", "action": "pre_check_failed", "operator": "system", "target": "rel_e3cf38112a9c", "detail": "未通过项: 1", "extra": {}, "hash": "9ba8cc1596a94b53"}
+{"timestamp": "2026-06-20T09:24:52", "action": "submit_release", "operator": "demo_user", "target": "rel_365e73bc4f65", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "bf4d6a1edbb434ff"}
+{"timestamp": "2026-06-20T09:24:52", "action": "pre_check_failed", "operator": "system", "target": "rel_365e73bc4f65", "detail": "未通过项: 1", "extra": {}, "hash": "180e151f7be15b75"}
+{"timestamp": "2026-06-20T09:24:52", "action": "submit_release", "operator": "demo_user", "target": "rel_5138d6678b28", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "7a756a5db87d0115"}
+{"timestamp": "2026-06-20T09:24:52", "action": "pre_check_failed", "operator": "system", "target": "rel_5138d6678b28", "detail": "未通过项: 1", "extra": {}, "hash": "8cd5b62d05bb457f"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_ad476d4fdbef", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "1a7f70145de94a13"}
+{"timestamp": "2026-06-20T09:24:53", "action": "pre_check_failed", "operator": "system", "target": "rel_ad476d4fdbef", "detail": "未通过项: 3", "extra": {}, "hash": "72f8fc45a1224e70"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_e5f1c483880b", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "9d7c5235aa013687"}
+{"timestamp": "2026-06-20T09:24:53", "action": "pre_check_failed", "operator": "system", "target": "rel_e5f1c483880b", "detail": "未通过项: 1", "extra": {}, "hash": "fe1c1e04ad3e9405"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_7ce6fc38ce9f", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "8ce3fb3e28f01645"}
+{"timestamp": "2026-06-20T09:24:53", "action": "pre_check_failed", "operator": "system", "target": "rel_7ce6fc38ce9f", "detail": "未通过项: 3", "extra": {}, "hash": "0ba33714305b6983"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_49859389ec9b", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "37322d2a60cfa039"}
+{"timestamp": "2026-06-20T09:24:53", "action": "pre_check_failed", "operator": "system", "target": "rel_49859389ec9b", "detail": "未通过项: 2", "extra": {}, "hash": "f8b33992d6d095ed"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_e8c3ddfcdde7", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "d87e8a52407f92e5"}
+{"timestamp": "2026-06-20T09:24:53", "action": "pre_check_failed", "operator": "system", "target": "rel_e8c3ddfcdde7", "detail": "未通过项: 2", "extra": {}, "hash": "a4284f579608db5f"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_18b25efa6a15", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "fafe7204ea728d8b"}
+{"timestamp": "2026-06-20T09:24:53", "action": "pre_check_failed", "operator": "system", "target": "rel_18b25efa6a15", "detail": "未通过项: 1", "extra": {}, "hash": "9d43076459df591b"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_495749ad0368", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "01f0b82c5203ed60"}
+{"timestamp": "2026-06-20T09:24:53", "action": "pre_check_failed", "operator": "system", "target": "rel_495749ad0368", "detail": "未通过项: 3", "extra": {}, "hash": "65e75d2551116402"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_18797afa6de2", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "598f2dadb17a453f"}
+{"timestamp": "2026-06-20T09:24:53", "action": "pre_check_failed", "operator": "system", "target": "rel_18797afa6de2", "detail": "未通过项: 1", "extra": {}, "hash": "4bbbb6d53c993a58"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_8eadccf6df96", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "d06bcbfbb254d333"}
+{"timestamp": "2026-06-20T09:24:53", "action": "pre_check_failed", "operator": "system", "target": "rel_8eadccf6df96", "detail": "未通过项: 1", "extra": {}, "hash": "0925e529c7fadc8a"}
+{"timestamp": "2026-06-20T09:24:53", "action": "submit_release", "operator": "demo_user", "target": "rel_ffa0eefee379", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "1d90fc452244a7e4"}
+{"timestamp": "2026-06-20T09:24:54", "action": "pre_check_failed", "operator": "system", "target": "rel_ffa0eefee379", "detail": "未通过项: 3", "extra": {}, "hash": "ffb694d93e5bc001"}
+{"timestamp": "2026-06-20T09:24:54", "action": "submit_release", "operator": "demo_user", "target": "rel_05002304892f", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "a9ab3e7cd428a252"}
+{"timestamp": "2026-06-20T09:24:54", "action": "pre_check_passed", "operator": "system", "target": "rel_05002304892f", "detail": "", "extra": {}, "hash": "5314a15b4590daee"}
+{"timestamp": "2026-06-20T09:24:54", "action": "approve", "operator": "customs_auto", "target": "rel_05002304892f", "detail": "角色=customs, 意见=自动审批 - 关务审批评估通过", "extra": {}, "hash": "5a592fc6b92bef43"}
+{"timestamp": "2026-06-20T09:24:54", "action": "approve", "operator": "operations_auto", "target": "rel_05002304892f", "detail": "角色=operations, 意见=自动审批 - 运营审批评估通过", "extra": {}, "hash": "3e9a5cb7cd0f0e33"}
+{"timestamp": "2026-06-20T09:24:54", "action": "approve", "operator": "finance_auto", "target": "rel_05002304892f", "detail": "角色=finance, 意见=自动审批 - 财务审批评估通过", "extra": {}, "hash": "63022b1cd57c31df"}
+{"timestamp": "2026-06-20T09:24:54", "action": "approve", "operator": "tech_auto", "target": "rel_05002304892f", "detail": "角色=tech, 意见=自动审批 - 技术审批评估通过", "extra": {}, "hash": "f3adf84010983b08"}
+{"timestamp": "2026-06-20T09:24:54", "action": "approval_completed", "operator": "system", "target": "rel_05002304892f", "detail": "", "extra": {}, "hash": "97d0fcb3aa7b019b"}
+{"timestamp": "2026-06-20T09:24:54", "action": "gray_release_start", "operator": "system", "target": "rel_05002304892f", "detail": "版本=v3.0.0", "extra": {}, "hash": "c24a1655961a1108"}
+{"timestamp": "2026-06-20T09:24:54", "action": "release_completed", "operator": "system", "target": "rel_05002304892f", "detail": "版本=v3.0.0", "extra": {}, "hash": "58a947e609029d90"}
+{"timestamp": "2026-06-20T09:24:54", "action": "submit_release", "operator": "admin", "target": "rel_dc2e0d1ff3c4", "detail": "版本=v3.0.0-hotfix, 类型=hotfix", "extra": {}, "hash": "f885574d2055ddbd"}
+{"timestamp": "2026-06-20T09:24:54", "action": "pre_check_failed", "operator": "system", "target": "rel_dc2e0d1ff3c4", "detail": "未通过项: 1", "extra": {}, "hash": "717595b316fc65a9"}
+{"timestamp": "2026-06-20T09:24:54", "action": "drill_scheduled", "operator": "system", "target": "drill_467649d108ab", "detail": "目标=v3.0.0", "extra": {}, "hash": "179398a15bac58e5"}
+{"timestamp": "2026-06-20T09:24:55", "action": "drill_completed", "operator": "system", "target": "drill_467649d108ab", "detail": "状态=success, 耗时=1.3s", "extra": {}, "hash": "f09ddbf01f3655ba"}
+{"timestamp": "2026-06-20T09:24:56", "action": "report_generated", "operator": "system", "target": "rpt_06208891fed7", "detail": "", "extra": {}, "hash": "5c6ec595402d2bc1"}
+{"timestamp": "2026-06-20T09:24:56", "action": "submit_release", "operator": "demo_user", "target": "rel_e35cc62c591b", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "ba216bda115f258e"}
+{"timestamp": "2026-06-20T09:24:56", "action": "pre_check_failed", "operator": "system", "target": "rel_e35cc62c591b", "detail": "未通过项: 2", "extra": {}, "hash": "c1e99caad3ca0a22"}
+{"timestamp": "2026-06-20T09:24:56", "action": "submit_release", "operator": "demo_user", "target": "rel_33b55de4a550", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "98346444839da37a"}
+{"timestamp": "2026-06-20T09:24:56", "action": "pre_check_failed", "operator": "system", "target": "rel_33b55de4a550", "detail": "未通过项: 1", "extra": {}, "hash": "59c20896c952cef0"}
+{"timestamp": "2026-06-20T09:24:57", "action": "submit_release", "operator": "demo_user", "target": "rel_4d509b8855fb", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "939b04884190c0e4"}
+{"timestamp": "2026-06-20T09:24:57", "action": "pre_check_failed", "operator": "system", "target": "rel_4d509b8855fb", "detail": "未通过项: 2", "extra": {}, "hash": "0dee98275505bd69"}
+{"timestamp": "2026-06-20T09:25:05", "action": "submit_release", "operator": "demo_user", "target": "rel_175e2ab204d5", "detail": "版本=v3.1.0, 类型=regular", "extra": {}, "hash": "e9d12f5ff53c04b1"}
+{"timestamp": "2026-06-20T09:25:05", "action": "pre_check_failed", "operator": "system", "target": "rel_175e2ab204d5", "detail": "未通过项: 2", "extra": {}, "hash": "74a3ba275d772c68"}
+{"timestamp": "2026-06-20T09:26:21", "action": "submit_release", "operator": "demo_user", "target": "rel_20974f034ab7", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "fbff76c12e5a72c4"}
+{"timestamp": "2026-06-20T09:26:21", "action": "pre_check_failed", "operator": "system", "target": "rel_20974f034ab7", "detail": "未通过项: 1", "extra": {}, "hash": "a6c4660062cbd86a"}
+{"timestamp": "2026-06-20T09:26:21", "action": "submit_release", "operator": "demo_user", "target": "rel_b3294aaf0edd", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "3f097d80567dd77c"}
+{"timestamp": "2026-06-20T09:26:21", "action": "pre_check_failed", "operator": "system", "target": "rel_b3294aaf0edd", "detail": "未通过项: 3", "extra": {}, "hash": "675de3bcb19bc7b7"}
+{"timestamp": "2026-06-20T09:26:21", "action": "submit_release", "operator": "demo_user", "target": "rel_e3b78ff14d95", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "6f8d95f6eaf4e260"}
+{"timestamp": "2026-06-20T09:26:21", "action": "pre_check_failed", "operator": "system", "target": "rel_e3b78ff14d95", "detail": "未通过项: 1", "extra": {}, "hash": "2c6af16a25de0bbb"}
+{"timestamp": "2026-06-20T09:26:21", "action": "submit_release", "operator": "demo_user", "target": "rel_306cb728791e", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "2f3b8e92026ef6ec"}
+{"timestamp": "2026-06-20T09:26:21", "action": "pre_check_failed", "operator": "system", "target": "rel_306cb728791e", "detail": "未通过项: 3", "extra": {}, "hash": "e6e4c30069101a21"}
+{"timestamp": "2026-06-20T09:26:21", "action": "submit_release", "operator": "demo_user", "target": "rel_783f1d94a424", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "86795661263455a1"}
+{"timestamp": "2026-06-20T09:26:21", "action": "pre_check_failed", "operator": "system", "target": "rel_783f1d94a424", "detail": "未通过项: 3", "extra": {}, "hash": "681301d9f35947db"}
+{"timestamp": "2026-06-20T09:26:21", "action": "submit_release", "operator": "demo_user", "target": "rel_26505d568c62", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "fd21df57062ce0f2"}
+{"timestamp": "2026-06-20T09:26:21", "action": "pre_check_failed", "operator": "system", "target": "rel_26505d568c62", "detail": "未通过项: 3", "extra": {}, "hash": "5b30d038067101f8"}
+{"timestamp": "2026-06-20T09:26:21", "action": "submit_release", "operator": "demo_user", "target": "rel_96093edf6af0", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "ac0dd49d3e59ccce"}
+{"timestamp": "2026-06-20T09:26:21", "action": "pre_check_failed", "operator": "system", "target": "rel_96093edf6af0", "detail": "未通过项: 3", "extra": {}, "hash": "e5bbd640e2f65404"}
+{"timestamp": "2026-06-20T09:26:21", "action": "submit_release", "operator": "demo_user", "target": "rel_59ea125111f9", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "bca8bc213648de0d"}
+{"timestamp": "2026-06-20T09:26:21", "action": "pre_check_failed", "operator": "system", "target": "rel_59ea125111f9", "detail": "未通过项: 1", "extra": {}, "hash": "c3094e1c317f1e5f"}
+{"timestamp": "2026-06-20T09:26:22", "action": "submit_release", "operator": "demo_user", "target": "rel_8d93690facea", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "0b606909ba5c8ec0"}
+{"timestamp": "2026-06-20T09:26:22", "action": "pre_check_failed", "operator": "system", "target": "rel_8d93690facea", "detail": "未通过项: 2", "extra": {}, "hash": "c9a140e45d1028d0"}
+{"timestamp": "2026-06-20T09:26:22", "action": "submit_release", "operator": "demo_user", "target": "rel_0ad7fb06be54", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "4187ef38543c0fdd"}
+{"timestamp": "2026-06-20T09:26:22", "action": "pre_check_failed", "operator": "system", "target": "rel_0ad7fb06be54", "detail": "未通过项: 2", "extra": {}, "hash": "70d1568bcf8dca75"}
+{"timestamp": "2026-06-20T09:26:22", "action": "submit_release", "operator": "demo_user", "target": "rel_a629eefd8d94", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "4566cf472ad8e2b6"}
+{"timestamp": "2026-06-20T09:26:22", "action": "pre_check_failed", "operator": "system", "target": "rel_a629eefd8d94", "detail": "未通过项: 1", "extra": {}, "hash": "fb01627ba23f8035"}
+{"timestamp": "2026-06-20T09:26:22", "action": "submit_release", "operator": "demo_user", "target": "rel_7311b6733de0", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "b81fc2750ff9b46b"}
+{"timestamp": "2026-06-20T09:26:22", "action": "pre_check_failed", "operator": "system", "target": "rel_7311b6733de0", "detail": "未通过项: 2", "extra": {}, "hash": "b9b167e38ec78574"}
+{"timestamp": "2026-06-20T09:26:22", "action": "submit_release", "operator": "demo_user", "target": "rel_6259fe0f05e4", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "af0cde39230979e2"}
+{"timestamp": "2026-06-20T09:26:22", "action": "pre_check_failed", "operator": "system", "target": "rel_6259fe0f05e4", "detail": "未通过项: 2", "extra": {}, "hash": "2b2c8a4d2f930806"}
+{"timestamp": "2026-06-20T09:26:22", "action": "submit_release", "operator": "demo_user", "target": "rel_b8235a416b2c", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "59092095b590d7e1"}
+{"timestamp": "2026-06-20T09:26:22", "action": "pre_check_failed", "operator": "system", "target": "rel_b8235a416b2c", "detail": "未通过项: 2", "extra": {}, "hash": "1fcf95c7bc58c234"}
+{"timestamp": "2026-06-20T09:26:22", "action": "submit_release", "operator": "demo_user", "target": "rel_356d6c006143", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "e3fbfce3d66192ce"}
+{"timestamp": "2026-06-20T09:26:22", "action": "pre_check_failed", "operator": "system", "target": "rel_356d6c006143", "detail": "未通过项: 2", "extra": {}, "hash": "0dfb9c8b2ae37c85"}
+{"timestamp": "2026-06-20T09:26:22", "action": "submit_release", "operator": "demo_user", "target": "rel_268006b0b99b", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "55bd59effc8d798d"}
+{"timestamp": "2026-06-20T09:26:22", "action": "pre_check_passed", "operator": "system", "target": "rel_268006b0b99b", "detail": "", "extra": {}, "hash": "87af5d89c2b04c43"}
+{"timestamp": "2026-06-20T09:26:22", "action": "submit_release", "operator": "demo_user", "target": "rel_d0fabb3926d9", "detail": "版本=v3.2.0, 类型=regular", "extra": {}, "hash": "7418adb994ddaebe"}
+{"timestamp": "2026-06-20T09:26:22", "action": "pre_check_failed", "operator": "system", "target": "rel_d0fabb3926d9", "detail": "未通过项: 2", "extra": {}, "hash": "c7764f92b441a21f"}
+{"timestamp": "2026-06-20T09:26:22", "action": "approve", "operator": "customs_auto", "target": "rel_268006b0b99b", "detail": "角色=customs, 意见=自动审批 - 关务评估通过", "extra": {}, "hash": "57649ca5a5d7b5f0"}
+{"timestamp": "2026-06-20T09:26:22", "action": "approve", "operator": "operations_auto", "target": "rel_268006b0b99b", "detail": "角色=operations, 意见=自动审批 - 运营评估通过", "extra": {}, "hash": "59d409d3d5b60426"}
+{"timestamp": "2026-06-20T09:26:23", "action": "approve", "operator": "finance_auto", "target": "rel_268006b0b99b", "detail": "角色=finance, 意见=自动审批 - 财务评估通过", "extra": {}, "hash": "a53fb5e0471f0301"}
+{"timestamp": "2026-06-20T09:26:23", "action": "approve", "operator": "tech_auto", "target": "rel_268006b0b99b", "detail": "角色=tech, 意见=自动审批 - 技术评估通过", "extra": {}, "hash": "1c50dab66d175bd3"}
+{"timestamp": "2026-06-20T09:26:23", "action": "approval_completed", "operator": "system", "target": "rel_268006b0b99b", "detail": "", "extra": {}, "hash": "cc918d74ba1c302d"}
+{"timestamp": "2026-06-20T09:26:23", "action": "gray_release_start", "operator": "system", "target": "rel_268006b0b99b", "detail": "版本=v3.2.0", "extra": {}, "hash": "eec67b6ffe852e01"}
+{"timestamp": "2026-06-20T09:26:23", "action": "release_completed", "operator": "system", "target": "rel_268006b0b99b", "detail": "版本=v3.2.0", "extra": {}, "hash": "1ccfecf06896d13a"}
+{"timestamp": "2026-06-20T09:26:23", "action": "submit_release", "operator": "admin_user", "target": "rel_3653409d3998", "detail": "版本=v3.2.1-hotfix, 类型=hotfix", "extra": {}, "hash": "09c0c124591c1690"}
+{"timestamp": "2026-06-20T09:26:23", "action": "pre_check_failed", "operator": "system", "target": "rel_3653409d3998", "detail": "未通过项: 2", "extra": {}, "hash": "0cdc8a4584714301"}
+{"timestamp": "2026-06-20T09:26:23", "action": "submit_release", "operator": "admin_user", "target": "rel_3872ab83f877", "detail": "版本=v3.2.1-hotfix, 类型=hotfix", "extra": {}, "hash": "1fe4c5d4ab5ddf06"}
+{"timestamp": "2026-06-20T09:26:23", "action": "pre_check_failed", "operator": "system", "target": "rel_3872ab83f877", "detail": "未通过项: 3", "extra": {}, "hash": "73aa97b012f70116"}
+{"timestamp": "2026-06-20T09:26:23", "action": "submit_release", "operator": "admin_user", "target": "rel_04ce64accf8e", "detail": "版本=v3.2.1-hotfix, 类型=hotfix", "extra": {}, "hash": "fc05b6be3cf7176e"}
+{"timestamp": "2026-06-20T09:26:23", "action": "pre_check_failed", "operator": "system", "target": "rel_04ce64accf8e", "detail": "未通过项: 2", "extra": {}, "hash": "6a6984ad4c22f49f"}
+{"timestamp": "2026-06-20T09:26:24", "action": "submit_release", "operator": "admin_user", "target": "rel_7b893a7a1a21", "detail": "版本=v3.2.1-hotfix, 类型=hotfix", "extra": {}, "hash": "1919d55efd92d816"}
+{"timestamp": "2026-06-20T09:26:24", "action": "pre_check_passed", "operator": "system", "target": "rel_7b893a7a1a21", "detail": "", "extra": {}, "hash": "af4733d498ed4508"}
+{"timestamp": "2026-06-20T09:26:24", "action": "approve", "operator": "tech_director", "target": "rel_7b893a7a1a21", "detail": "角色=tech, 意见=技术方案确认", "extra": {}, "hash": "f3c8e14e0782b017"}
+{"timestamp": "2026-06-20T09:26:24", "action": "approve", "operator": "customs_director", "target": "rel_7b893a7a1a21", "detail": "角色=customs, 意见=关务合规确认", "extra": {}, "hash": "26a79bad5c9b6b08"}
+{"timestamp": "2026-06-20T09:26:24", "action": "approval_completed", "operator": "system", "target": "rel_7b893a7a1a21", "detail": "", "extra": {}, "hash": "79885746d67bc353"}
+{"timestamp": "2026-06-20T09:26:24", "action": "post_sign", "operator": "ops_manager", "target": "rel_7b893a7a1a21", "detail": "角色=operations, 意见=事后确认", "extra": {}, "hash": "dc63aab70d9b415c"}
+{"timestamp": "2026-06-20T09:26:24", "action": "post_sign_completed", "operator": "system", "target": "rel_7b893a7a1a21", "detail": "全部补签完成", "extra": {}, "hash": "94b70e92fdb421f8"}
+{"timestamp": "2026-06-20T09:26:24", "action": "post_sign", "operator": "finance_manager", "target": "rel_7b893a7a1a21", "detail": "角色=finance, 意见=事后确认", "extra": {}, "hash": "7c778e16764966a9"}
+{"timestamp": "2026-06-20T09:26:24", "action": "post_sign_completed", "operator": "system", "target": "rel_7b893a7a1a21", "detail": "全部补签完成", "extra": {}, "hash": "94b70e92fdb421f8"}
+{"timestamp": "2026-06-20T09:26:25", "action": "report_generated", "operator": "system", "target": "rpt_468f44b40b4c", "detail": "", "extra": {}, "hash": "05bc3fdac5997274"}
