@@ -1,0 +1,43 @@
+{
+  "release_id": "rel_8d32f61fe2ac",
+  "passed": false,
+  "checked_at": "2026-06-20T08:35:20",
+  "items": [
+    {
+      "name": "报关通过率",
+      "category": "quality",
+      "status": "pass",
+      "value": 0.9553,
+      "threshold": 0.95,
+      "message": "报关通过率 95.53% >= 阈值 95.00%",
+      "suggestion": ""
+    },
+    {
+      "name": "舱单数据一致性",
+      "category": "quality",
+      "status": "fail",
+      "value": 0.9653,
+      "threshold": 0.99,
+      "message": "舱单一致性 96.53% < 阈值 99.00%",
+      "suggestion": "请排查舱单同步接口的字段映射差异，确认上游数据源未发生格式变更"
+    },
+    {
+      "name": "海关接口连通性",
+      "category": "infrastructure",
+      "status": "pass",
+      "value": 1.0,
+      "threshold": 1.0,
+      "message": "海关接口连通性测试通过",
+      "suggestion": ""
+    },
+    {
+      "name": "单证校验规则覆盖率",
+      "category": "compliance",
+      "status": "pass",
+      "value": 0.9946,
+      "threshold": 0.9,
+      "message": "规则覆盖率 99.46% >= 阈值 90.00%",
+      "suggestion": ""
+    }
+  ]
+}

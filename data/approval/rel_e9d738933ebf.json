@@ -1,0 +1,43 @@
+{
+  "release_id": "rel_e9d738933ebf",
+  "release_type": "regular",
+  "current_step": 0,
+  "reason": "",
+  "hotfix_mode": null,
+  "hotfix_critical_roles": [],
+  "post_sign_deadline": "",
+  "records": [
+    {
+      "role": "customs",
+      "approver": "",
+      "status": "pending",
+      "comment": "",
+      "approved_at": "",
+      "is_critical": true
+    },
+    {
+      "role": "operations",
+      "approver": "",
+      "status": "pending",
+      "comment": "",
+      "approved_at": "",
+      "is_critical": false
+    },
+    {
+      "role": "finance",
+      "approver": "",
+      "status": "pending",
+      "comment": "",
+      "approved_at": "",
+      "is_critical": false
+    },
+    {
+      "role": "tech",
+      "approver": "",
+      "status": "pending",
+      "comment": "",
+      "approved_at": "",
+      "is_critical": true
+    }
+  ]
+}

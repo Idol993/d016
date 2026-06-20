@@ -1,0 +1,15 @@
+{
+  "release_id": "rel_8d32f61fe2ac",
+  "version": "v2.1.0-hotfix",
+  "previous_version": "v2.0.0",
+  "release_type": "hotfix",
+  "status": "check_failed",
+  "applicant": "admin",
+  "apply_time": "2026-06-20T08:35:20",
+  "finish_time": "",
+  "emergency_reason": "紧急修复深圳口岸报关接口异常",
+  "approval_first_at": "",
+  "approval_last_at": "",
+  "approval_duration_minutes": 0.0,
+  "port_results": {}
+}

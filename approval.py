@@ -62,7 +62,6 @@ class ApprovalEngine:
         elif release_type == ReleaseType.HOTFIX:
             if not reason:
                 raise ApprovalError("紧急热修复必须填写紧急原因")
-            flow.emergency_reason = reason
 
             default_mode = self.hotfix_config.get("default_mode", "parallel")
             mode_str = hotfix_mode or default_mode

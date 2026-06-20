@@ -1,0 +1,43 @@
+{
+  "release_id": "rel_ce85e9823681",
+  "passed": false,
+  "checked_at": "2026-06-20T08:36:00",
+  "items": [
+    {
+      "name": "报关通过率",
+      "category": "quality",
+      "status": "fail",
+      "value": 0.923,
+      "threshold": 0.95,
+      "message": "报关通过率 92.30% < 阈值 95.00%",
+      "suggestion": "请检查报关规则引擎配置，核实HS编码匹配规则与禁限寄物品清单是否完整更新"
+    },
+    {
+      "name": "舱单数据一致性",
+      "category": "quality",
+      "status": "pass",
+      "value": 0.9953,
+      "threshold": 0.99,
+      "message": "舱单一致性 99.53% >= 阈值 99.00%",
+      "suggestion": ""
+    },
+    {
+      "name": "海关接口连通性",
+      "category": "infrastructure",
+      "status": "pass",
+      "value": 1.0,
+      "threshold": 1.0,
+      "message": "海关接口连通性测试通过",
+      "suggestion": ""
+    },
+    {
+      "name": "单证校验规则覆盖率",
+      "category": "compliance",
+      "status": "pass",
+      "value": 0.9826,
+      "threshold": 0.9,
+      "message": "规则覆盖率 98.26% >= 阈值 90.00%",
+      "suggestion": ""
+    }
+  ]
+}
