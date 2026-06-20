@@ -189,9 +189,33 @@ class AuditLogger:
                 "is_critical": r.get("is_critical", False),
             })
 
+        rtype = data.get("release_type")
+        hotfix_mode = data.get("hotfix_mode")
+        modified = False
+        if rtype == "hotfix" and hotfix_mode == "parallel":
+            critical_recs = [r for r in records if r.get("is_critical")]
+            critical_approved = all(
+                r.get("status") in ("approved", "post_signed") for r in critical_recs
+            )
+            if critical_approved:
+                for r in records:
+                    if not r.get("is_critical") and r.get("status") == "pending":
+                        r["status"] = "skipped"
+                        modified = True
+
+        if modified:
+            for i, raw in enumerate(data.get("records", [])):
+                if i < len(records) and records[i]["status"] != raw.get("status"):
+                    data["records"][i]["status"] = records[i]["status"]
+            try:
+                with open(path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, ensure_ascii=False, indent=2)
+            except Exception:
+                pass
+
         return {
-            "release_type": data.get("release_type"),
-            "hotfix_mode": data.get("hotfix_mode"),
+            "release_type": rtype,
+            "hotfix_mode": hotfix_mode,
             "emergency_reason": data.get("reason", ""),
             "post_sign_deadline": data.get("post_sign_deadline", ""),
             "records": records,

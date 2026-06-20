@@ -318,6 +318,32 @@ class ApprovalEngine:
                 approved_at=r.get("approved_at", ""),
                 is_critical=r.get("is_critical", False),
             ))
+
+        flow = self._migrate_legacy_hotfix(flow)
+        return flow
+
+    def _migrate_legacy_hotfix(self, flow: ApprovalFlow) -> ApprovalFlow:
+        """自动修复旧版hotfix记录：关键角色通过后非关键角色应为待补签(skipped)而非pending"""
+        if (
+            flow.release_type == ReleaseType.HOTFIX
+            and flow.hotfix_mode == HotfixMode.PARALLEL
+        ):
+            critical_approved = all(
+                r.status in (ApprovalStatus.APPROVED, ApprovalStatus.POST_SIGNED)
+                for r in flow.records if r.is_critical
+            )
+            if critical_approved:
+                modified = False
+                for record in flow.records:
+                    if record.status == ApprovalStatus.PENDING and not record.is_critical:
+                        record.status = ApprovalStatus.SKIPPED
+                        modified = True
+                        logger.info(
+                            "[%s] 迁移修复: 非关键角色 %s 从 pending 转为 skipped(待补签)",
+                            flow.release_id, record.role.value,
+                        )
+                if modified:
+                    self._save_flow(flow)
         return flow
 
     def _save_flow(self, flow: ApprovalFlow):

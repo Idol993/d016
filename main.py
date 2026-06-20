@@ -483,6 +483,280 @@ class ReleasePlatform:
     def get_approval_status(self, release_id: str) -> dict:
         return self.approval.get_approval_status_summary(release_id)
 
+    def get_release_summary(
+        self,
+        version: str = "",
+        start_date: str = "",
+        end_date: str = "",
+    ) -> dict:
+        """按版本/时间段汇总发布统计"""
+        records = self.audit.query_release_history(
+            version=version or None,
+            start_date=start_date or None,
+            end_date=end_date or None,
+        )
+        summary = {
+            "total": len(records),
+            "regular_count": 0,
+            "hotfix_count": 0,
+            "success_count": 0,
+            "circuit_break_count": 0,
+            "rollback_count": 0,
+            "post_sign_total": 0,
+            "post_sign_done": 0,
+            "post_sign_pending": 0,
+            "post_sign_rate": 0.0,
+            "success_rate": 0.0,
+            "avg_approval_minutes": 0.0,
+            "health_score": 0,
+            "health_label": "",
+            "records_processed": len(records),
+            "by_version": {},
+            "start_date": start_date,
+            "end_date": end_date,
+            "filter_version": version,
+        }
+        approval_durations = []
+
+        for rec in records:
+            rtype = rec.get("release_type", "regular")
+            if rtype == "regular":
+                summary["regular_count"] += 1
+            elif rtype == "hotfix":
+                summary["hotfix_count"] += 1
+
+            status = rec.get("status", "")
+            if status in ("full_released", "approval_passed"):
+                summary["success_count"] += 1
+            elif status in ("circuit_break", "rolled_back"):
+                summary["rollback_count"] += 1
+
+            for cb in rec.get("circuit_break_events", []):
+                if cb:
+                    summary["circuit_break_count"] += 1
+
+            approval = rec.get("approval", {})
+            for ar in approval.get("records", []):
+                is_critical = ar.get("is_critical", False)
+                st = ar.get("status", "")
+                if rtype == "hotfix" and not is_critical:
+                    summary["post_sign_total"] += 1
+                    if st == "post_signed":
+                        summary["post_sign_done"] += 1
+                    elif st in ("skipped", "pending"):
+                        summary["post_sign_pending"] += 1
+
+            dur = rec.get("approval_duration_minutes")
+            if dur and dur > 0:
+                approval_durations.append(dur)
+
+            v = rec.get("version", "unknown")
+            if v not in summary["by_version"]:
+                summary["by_version"][v] = {
+                    "count": 0, "success": 0, "rollback": 0,
+                    "regular": 0, "hotfix": 0,
+                }
+            summary["by_version"][v]["count"] += 1
+            if status in ("full_released", "approval_passed"):
+                summary["by_version"][v]["success"] += 1
+            elif status in ("circuit_break", "rolled_back"):
+                summary["by_version"][v]["rollback"] += 1
+            if rtype == "regular":
+                summary["by_version"][v]["regular"] += 1
+            elif rtype == "hotfix":
+                summary["by_version"][v]["hotfix"] += 1
+
+        if summary["total"] > 0:
+            summary["success_rate"] = round(summary["success_count"] / summary["total"] * 100, 2)
+        if summary["post_sign_total"] > 0:
+            summary["post_sign_rate"] = round(summary["post_sign_done"] / summary["post_sign_total"] * 100, 2)
+        if approval_durations:
+            summary["avg_approval_minutes"] = round(sum(approval_durations) / len(approval_durations), 2)
+
+        score = 100
+        if summary["total"] > 0:
+            score -= max(0, (100 - summary["success_rate"])) * 0.5
+        score -= summary["circuit_break_count"] * 10
+        score -= summary["rollback_count"] * 15
+        if summary["post_sign_total"] > 0:
+            score -= max(0, (100 - summary["post_sign_rate"])) * 0.3
+        score = max(0, min(100, int(score)))
+        summary["health_score"] = score
+
+        if score >= 90:
+            summary["health_label"] = "✅ 健康"
+        elif score >= 70:
+            summary["health_label"] = "⚠️  需关注"
+        elif score >= 50:
+            summary["health_label"] = "🔥 异常"
+        else:
+            summary["health_label"] = "💥 严重"
+
+        return summary
+
+    def get_port_history(self, port_name: str, limit: int = 10) -> dict:
+        """按口岸聚合查看最近发布历史"""
+        all_records = self.audit.query_release_history()
+        port_records = []
+        current_version = None
+        current_time = ""
+
+        for rec in all_records:
+            for pr in rec.get("port_records", []):
+                if not port_name or pr.get("port_name") == port_name:
+                    cb = pr.get("circuit_break")
+                    rollback_time = ""
+                    if cb and cb.get("rollback_completed_at"):
+                        rollback_time = cb["rollback_completed_at"]
+                    elif pr.get("rollback_completed_at"):
+                        rollback_time = pr["rollback_completed_at"]
+
+                    release_time = pr.get("deploy_started_at", rec.get("apply_time", ""))
+                    if release_time and release_time > current_time:
+                        st = pr.get("status", "")
+                        if st in ("released", "deployed", "monitoring"):
+                            current_version = rec.get("version")
+                            current_time = release_time
+                        elif st in ("rolled_back", "circuit_break") and not current_version:
+                            current_version = rec.get("previous_version")
+                            current_time = rollback_time or release_time
+
+                    port_records.append({
+                        "release_id": rec.get("release_id"),
+                        "version": rec.get("version"),
+                        "previous_version": rec.get("previous_version"),
+                        "release_type": rec.get("release_type"),
+                        "tier": pr.get("tier"),
+                        "status": pr.get("status"),
+                        "release_time": release_time,
+                        "circuit_break": cb is not None,
+                        "circuit_break_reason": (cb or {}).get("reason", "") if cb else "",
+                        "rollback_time": rollback_time,
+                        "deploy_duration_minutes": 0,
+                    })
+
+        port_records.sort(key=lambda x: x["release_time"], reverse=True)
+        port_records = port_records[:limit]
+
+        has_risk = any(
+            pr["status"] in ("circuit_break", "rolled_back")
+            for pr in port_records[:3]
+        ) if len(port_records) >= 3 else False
+
+        return {
+            "port_name": port_name,
+            "total_records": len(port_records),
+            "current_online_version": current_version,
+            "current_deploy_time": current_time,
+            "has_recent_risk": has_risk,
+            "risk_level": "🔥 高风险" if has_risk else "✅ 正常",
+            "records": port_records,
+        }
+
+    def check_compliance(self) -> dict:
+        """合规校验：审批闭环、补签超期、顺序异常、回滚未复盘"""
+        issues = []
+        all_records = self.audit.query_release_history()
+        now = parse_iso(now_iso())
+
+        for rec in all_records:
+            rid = rec.get("release_id")
+            version = rec.get("version")
+            rtype = rec.get("release_type")
+            approval = rec.get("approval", {})
+            records = approval.get("records", [])
+            status = rec.get("status", "")
+
+            if not records:
+                continue
+
+            approval_statuses = [r.get("status", "") for r in records]
+            closed = all(s in ("approved", "post_signed", "rejected") for s in approval_statuses)
+
+            if status in ("full_released", "gray_deploying", "check_passed", "pending_approval"):
+                if not closed:
+                    pending_roles = [
+                        r["role"] for r in records
+                        if r["status"] in ("pending", "skipped")
+                    ]
+                    issues.append({
+                        "release_id": rid,
+                        "version": version,
+                        "issue_type": "审批未闭环",
+                        "severity": "medium",
+                        "detail": f"发布已进入{status}状态，但审批链路未完成",
+                        "action": f"请处理待审批角色: {', '.join(pending_roles)}",
+                    })
+
+            if rtype == "hotfix":
+                deadline_str = approval.get("post_sign_deadline", "")
+                if deadline_str:
+                    try:
+                        deadline = parse_iso(deadline_str)
+                        for r in records:
+                            if not r.get("is_critical") and r.get("status") == "skipped":
+                                if now > deadline:
+                                    hours_overdue = round((now - deadline).total_seconds() / 3600, 1)
+                                    issues.append({
+                                        "release_id": rid,
+                                        "version": version,
+                                        "issue_type": "补签超期",
+                                        "severity": "high",
+                                        "detail": f"{r['role']}补签已超期 {hours_overdue} 小时",
+                                        "action": f"立即完成 {r['role']} 事后补签",
+                                    })
+                    except Exception:
+                        pass
+
+            if rtype == "regular":
+                last_approved_idx = -1
+                for idx, r in enumerate(records):
+                    s = r.get("status", "")
+                    if s in ("approved", "post_signed"):
+                        if idx <= last_approved_idx:
+                            issues.append({
+                                "release_id": rid,
+                                "version": version,
+                                "issue_type": "审批顺序异常",
+                                "severity": "high",
+                                "detail": f"{r['role']}在之前的角色未完成时已审批通过",
+                                "action": "核查审批流程，确认是否存在越权审批",
+                            })
+                        last_approved_idx = idx
+
+            if status in ("circuit_break", "rolled_back"):
+                drill_count = 0
+                try:
+                    drill_records = self.drill.list_drills()
+                    for d in drill_records:
+                        if d.target_version == version and d.status in (DrillStatus.SUCCESS, DrillStatus.PASSED):
+                            drill_count += 1
+                except Exception:
+                    pass
+                if drill_count == 0:
+                    issues.append({
+                        "release_id": rid,
+                        "version": version,
+                        "issue_type": "回滚未复盘",
+                        "severity": "medium",
+                        "detail": "发生熔断/回滚后未进行演练复盘",
+                        "action": "立即组织回滚演练并记录复盘结果",
+                    })
+
+        issues.sort(key=lambda x: {"high": 0, "medium": 1, "low": 2}[x.get("severity", "low")])
+        return {
+            "total_checked": len(all_records),
+            "total_issues": len(issues),
+            "high_count": sum(1 for i in issues if i["severity"] == "high"),
+            "medium_count": sum(1 for i in issues if i["severity"] == "medium"),
+            "low_count": sum(1 for i in issues if i["severity"] == "low"),
+            "compliance_rate": round(
+                max(0, (len(all_records) - sum(1 for i in issues if i["severity"] in ("high", "medium"))))
+                / max(1, len(all_records)) * 100, 2
+            ),
+            "issues": issues,
+        }
+
     def _save_release(self, record: ReleaseRecord):
         data = {
             "release_id": record.release_id,
@@ -974,6 +1248,177 @@ def cmd_release_history(args, platform: ReleasePlatform):
     print()
 
 
+def cmd_release_summary(args, platform: ReleasePlatform):
+    summary = platform.get_release_summary(
+        version=args.version or "",
+        start_date=args.start_date or "",
+        end_date=args.end_date or "",
+    )
+
+    print()
+    print("╔" + "═" * 68 + "╗")
+    print("║" + " " * 27 + "📊 发布健康度汇总" + " " * 27 + "║")
+    print("╠" + "═" * 68 + "╣")
+    print(f"║  整体健康度: {summary['health_label']:<20}  评分: {summary['health_score']:>3}/100" + " " * 12 + "║")
+    print("╠" + "═" * 68 + "╣")
+    print(f"║  总发布数:     {summary['total']:<8}  常规发布: {summary['regular_count']:<5}  热修复: {summary['hotfix_count']:<5}     ║")
+    print(f"║  发布成功数:   {summary['success_count']:<8}  成功率:   {summary['success_rate']:>5.1f}%" + " " * 25 + "║")
+    print(f"║  熔断次数:     {summary['circuit_break_count']:<8}  回滚次数: {summary['rollback_count']:<5}" + " " * 24 + "║")
+    print(f"║  补签完成率:   {summary['post_sign_rate']:>5.1f}%  ({summary['post_sign_done']}/{summary['post_sign_total']})" + " " * 30 + "║")
+    print(f"║  平均审批时长: {summary['avg_approval_minutes']:.1f} 分钟" + " " * 42 + "║")
+    print("╠" + "═" * 68 + "╣")
+
+    if summary.get("by_version"):
+        print("║  按版本统计:" + " " * 57 + "║")
+        print("║  " + "版本        总数 成功 回滚 常规 热修" + " " * 30 + "║")
+        for v, s in sorted(summary["by_version"].items()):
+            print(f"║  {v:<12s} {s['count']:>3}  {s['success']:>3}  {s['rollback']:>3}  {s['regular']:>3}  {s['hotfix']:>3}" + " " * 34 + "║")
+
+    print("╚" + "═" * 68 + "╝")
+
+    if args.export:
+        export_path = os.path.abspath(args.export)
+        ext = os.path.splitext(export_path)[1].lower()
+
+        if ext == ".json":
+            with open(export_path, "w", encoding="utf-8") as f:
+                json.dump(summary, f, ensure_ascii=False, indent=2)
+            print(f"\n✅ 已导出JSON: {export_path}")
+        elif ext in (".xlsx", ".xls"):
+            try:
+                from openpyxl import Workbook
+                from openpyxl.styles import Font, PatternFill, Alignment
+
+                wb = Workbook()
+                ws = wb.active
+                ws.title = "健康度汇总"
+
+                headers = ["指标", "数值"]
+                for col, h in enumerate(headers, 1):
+                    cell = ws.cell(row=1, column=col, value=h)
+                    cell.font = Font(bold=True, color="FFFFFF")
+                    cell.fill = PatternFill("solid", fgColor="4472C4")
+                    cell.alignment = Alignment(horizontal="center")
+
+                overview_items = [
+                    ("总发布数", summary["total"]),
+                    ("常规发布数", summary["regular_count"]),
+                    ("热修复发布数", summary["hotfix_count"]),
+                    ("发布成功数", summary["success_count"]),
+                    ("发布成功率(%)", summary["success_rate"]),
+                    ("熔断次数", summary["circuit_break_count"]),
+                    ("回滚次数", summary["rollback_count"]),
+                    ("补签完成率(%)", summary["post_sign_rate"]),
+                    ("平均审批时长(分钟)", summary["avg_approval_minutes"]),
+                    ("健康度评分", summary["health_score"]),
+                    ("健康状态", summary["health_label"]),
+                ]
+                for i, (k, v) in enumerate(overview_items, 2):
+                    ws.cell(row=i, column=1, value=k)
+                    ws.cell(row=i, column=2, value=v)
+
+                ws2 = wb.create_sheet("按版本明细")
+                headers2 = ["版本", "总数", "成功", "回滚", "常规", "热修复"]
+                for col, h in enumerate(headers2, 1):
+                    cell = ws2.cell(row=1, column=col, value=h)
+                    cell.font = Font(bold=True, color="FFFFFF")
+                    cell.fill = PatternFill("solid", fgColor="4472C4")
+
+                for i, (v, s) in enumerate(sorted(summary["by_version"].items()), 2):
+                    ws2.cell(row=i, column=1, value=v)
+                    ws2.cell(row=i, column=2, value=s["count"])
+                    ws2.cell(row=i, column=3, value=s["success"])
+                    ws2.cell(row=i, column=4, value=s["rollback"])
+                    ws2.cell(row=i, column=5, value=s["regular"])
+                    ws2.cell(row=i, column=6, value=s["hotfix"])
+
+                for col in range(1, 7):
+                    ws2.column_dimensions[chr(64 + col)].width = 16
+
+                wb.save(export_path)
+                print(f"\n✅ 已导出Excel: {export_path}")
+            except ImportError:
+                print("\n⚠️  缺少 openpyxl 依赖，请先安装: pip install openpyxl")
+                jpath = export_path.rsplit(".", 1)[0] + ".json"
+                with open(jpath, "w", encoding="utf-8") as f:
+                    json.dump(summary, f, ensure_ascii=False, indent=2)
+                print(f"   已 fallback 导出JSON: {jpath}")
+        else:
+            print(f"\n⚠️  不支持的导出格式: {ext}，支持 .json 和 .xlsx")
+
+    print()
+
+
+def cmd_port_history(args, platform: ReleasePlatform):
+    result = platform.get_port_history(args.port, limit=args.limit or 10)
+
+    if not result["records"]:
+        print(f"\n❌ 口岸「{args.port}」无灰度发布记录")
+        print()
+        return
+
+    print()
+    print("╔" + "═" * 68 + "╗")
+    print(f"║  🏛  口岸: {result['port_name']:<30}  {result['risk_level']}" + " " * 12 + "║")
+    print("╠" + "═" * 68 + "╣")
+    print(f"║  当前线上版本: {str(result['current_online_version'] or 'N/A'):<30}        ║")
+    print(f"║  最近部署时间: {str(result['current_deploy_time'] or 'N/A'):<30}        ║")
+    print(f"║  历史发布记录: {result['total_records']} 条" + " " * 45 + "║")
+    print("╠" + "═" * 68 + "╣")
+
+    status_label = {
+        "deployed": "已部署",
+        "monitoring": "监控中",
+        "released": "✅ 全量",
+        "circuit_break": "🔥 熔断",
+        "rolled_back": "🔄 已回滚",
+    }
+    type_label = {"regular": "常规", "hotfix": "🔥热修"}
+
+    for pr in result["records"]:
+        st = status_label.get(pr["status"], pr["status"])
+        rt = type_label.get(pr["release_type"], pr["release_type"])
+        cb_tag = " [熔断]" if pr["circuit_break"] else ""
+        rb_tag = f" 回滚:{pr['rollback_time'][:16]}" if pr["rollback_time"] else ""
+        print(f"║  {pr['release_time'][:16]}  {pr['version']:<10} t{pr['tier']} {rt} {st:<8}{cb_tag}║")
+        if pr["circuit_break_reason"]:
+            print(f"║    └ 原因: {pr['circuit_break_reason'][:42]}" + " " * 15 + "║")
+        if rb_tag:
+            print(f"║    └ {rb_tag:<58} ║")
+
+    print("╚" + "═" * 68 + "╝")
+    print()
+
+
+def cmd_compliance_check(args, platform: ReleasePlatform):
+    result = platform.check_compliance()
+
+    print()
+    print("╔" + "═" * 68 + "╗")
+    print("║" + " " * 26 + "🛡 合规校验报告" + " " * 28 + "║")
+    print("╠" + "═" * 68 + "╣")
+    print(f"║  检查发布总数: {result['total_checked']:<10}  合规率: {result['compliance_rate']:>5.1f}%" + " " * 25 + "║")
+    print(f"║  严重问题(high):  {result['high_count']:<30}" + " " * 24 + "║")
+    print(f"║  中等问题(medium): {result['medium_count']:<30}" + " " * 24 + "║")
+    print(f"║  低危问题(low):   {result['low_count']:<30}" + " " * 24 + "║")
+    print("╠" + "═" * 68 + "╣")
+
+    if not result["issues"]:
+        print("║" + " " * 18 + "🎉 所有发布均符合合规要求！" + " " * 22 + "║")
+    else:
+        print("║  问题清单 (按严重程度排序):" + " " * 40 + "║")
+        sev_label = {"high": "🔥HIGH", "medium": "⚠️ MED", "low": "  LOW"}
+        for i, issue in enumerate(result["issues"], 1):
+            sev = sev_label.get(issue["severity"], issue["severity"])
+            print(f"║  {i:>2}. [{sev}] {issue['issue_type']}" + " " * 43 + "║")
+            print(f"║      发布ID: {issue['release_id']}  版本: {issue['version']:<15}║")
+            print(f"║      详情: {issue['detail'][:55]}" + " " * 2 + "║")
+            print(f"║      👉 {issue['action'][:58]}" + " " * 1 + "║")
+
+    print("╚" + "═" * 68 + "╝")
+    print()
+
+
 def cmd_verify(args, platform: ReleasePlatform):
     result = platform.verify_audit_integrity(date_str=args.date or "")
     print()
@@ -1201,6 +1646,18 @@ def main():
     p_history.add_argument("--end-date", default="", help="结束日期 YYYY-MM-DD")
     p_history.add_argument("--export", default="", help="导出路径 (.json 或 .csv)")
 
+    p_summary = subparsers.add_parser("release-summary", help="发布健康度汇总 (支持JSON/Excel导出)")
+    p_summary.add_argument("--version", default="", help="按版本号过滤")
+    p_summary.add_argument("--start-date", default="", help="开始日期 YYYY-MM-DD")
+    p_summary.add_argument("--end-date", default="", help="结束日期 YYYY-MM-DD")
+    p_summary.add_argument("--export", default="", help="导出路径 (.json 或 .xlsx)")
+
+    p_port = subparsers.add_parser("port-history", help="按口岸聚合查询灰度发布历史")
+    p_port.add_argument("--port", required=True, help="口岸名称 (如: 深圳口岸)")
+    p_port.add_argument("--limit", type=int, default=10, help="显示最近N条记录")
+
+    p_compliance = subparsers.add_parser("compliance-check", help="合规校验: 审批闭环/补签超期/顺序异常/回滚未复盘")
+
     p_verify = subparsers.add_parser("verify", help="校验审计日志完整性")
     p_verify.add_argument("--date", default="", help="指定日期(空=全部)")
 
@@ -1226,6 +1683,9 @@ def main():
         "report": cmd_report,
         "audit": cmd_audit,
         "release-history": cmd_release_history,
+        "release-summary": cmd_release_summary,
+        "port-history": cmd_port_history,
+        "compliance-check": cmd_compliance_check,
         "verify": cmd_verify,
         "full-flow": cmd_full_flow,
     }
