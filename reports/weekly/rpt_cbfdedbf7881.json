@@ -1,0 +1,12 @@
+{
+  "report_id": "rpt_cbfdedbf7881",
+  "period_start": "2026-06-15",
+  "period_end": "2026-06-21",
+  "total_releases": 2,
+  "success_releases": 0,
+  "rollback_count": 0,
+  "avg_approval_duration_minutes": 0.0,
+  "approval_duration_list": [],
+  "failure_rate_by_port": {},
+  "success_rate": 0.0
+}

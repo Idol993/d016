@@ -1,0 +1,9 @@
+{"timestamp": "2026-06-20T08:10:30", "action": "submit_release", "operator": "demo_user", "target": "rel_029486d7d593", "detail": "版本=v2.1.0, 类型=regular", "extra": {}, "hash": "949409393aa22ac8"}
+{"timestamp": "2026-06-20T08:10:30", "action": "pre_check_failed", "operator": "system", "target": "rel_029486d7d593", "detail": "未通过项: 1", "extra": {}, "hash": "0c75e8d5069522fb"}
+{"timestamp": "2026-06-20T08:10:30", "action": "submit_release", "operator": "admin", "target": "rel_eaa5c8ec3536", "detail": "版本=v2.1.0-hotfix, 类型=hotfix", "extra": {}, "hash": "75b84bfb50944e15"}
+{"timestamp": "2026-06-20T08:10:30", "action": "pre_check_failed", "operator": "system", "target": "rel_eaa5c8ec3536", "detail": "未通过项: 2", "extra": {}, "hash": "bc6c466cbda80242"}
+{"timestamp": "2026-06-20T08:10:30", "action": "drill_scheduled", "operator": "system", "target": "drill_c471664fce43", "detail": "目标=v2.1.0", "extra": {}, "hash": "2f9a6e18a7d7d2f2"}
+{"timestamp": "2026-06-20T08:10:31", "action": "drill_completed", "operator": "system", "target": "drill_c471664fce43", "detail": "状态=success, 耗时=1.3s", "extra": {}, "hash": "26fe844cc327fa72"}
+{"timestamp": "2026-06-20T08:10:31", "action": "report_generated", "operator": "system", "target": "rpt_cbfdedbf7881", "detail": "", "extra": {}, "hash": "b6e9e14097f44d86"}
+{"timestamp": "2026-06-20T08:11:01", "action": "submit_release", "operator": "zhangsan", "target": "rel_68b669dd3a02", "detail": "版本=v3.0.0, 类型=regular", "extra": {}, "hash": "2d39b632797e65c9"}
+{"timestamp": "2026-06-20T08:11:01", "action": "pre_check_failed", "operator": "system", "target": "rel_68b669dd3a02", "detail": "未通过项: 1", "extra": {}, "hash": "4c00860d905b6dac"}

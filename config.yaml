@@ -1,0 +1,105 @@
+system:
+  name: "跨境物流清关系统版本发布与合规回滚自动化平台"
+  data_dir: "./data"
+  log_dir: "./logs"
+  report_dir: "./reports"
+
+pre_check:
+  declaration_pass_rate:
+    threshold: 0.95
+    description: "报关通过率阈值"
+  manifest_consistency:
+    threshold: 0.99
+    description: "舱单数据一致性阈值"
+  customs_interface:
+    timeout_seconds: 30
+    retry_count: 3
+    description: "海关接口连通性测试"
+  document_rule_coverage:
+    threshold: 0.90
+    description: "单证校验规则覆盖率阈值 (HS编码匹配/禁限寄物品规则)"
+
+approval:
+  regular_flow:
+    - role: "customs"
+      name: "关务审批"
+      description: "报关规则与合规性评估"
+      is_critical: true
+    - role: "operations"
+      name: "运营审批"
+      description: "时效与业务影响评估"
+      is_critical: false
+    - role: "finance"
+      name: "财务审批"
+      description: "税费计算与结算评估"
+      is_critical: false
+    - role: "tech"
+      name: "技术审批"
+      description: "架构与代码评估"
+      is_critical: true
+  hotfix_flow:
+    default_mode: "parallel"
+    require_reason: true
+    post_sign_required: true
+    post_sign_deadline_hours: 24
+    critical_roles: ["customs", "tech"]
+
+gray_release:
+  port_tiers:
+    - tier: 1
+      traffic_ratio: 0.05
+      ports: ["昆明口岸", "南宁口岸"]
+      is_core: false
+    - tier: 2
+      traffic_ratio: 0.20
+      ports: ["上海口岸", "宁波口岸"]
+      is_core: true
+    - tier: 3
+      traffic_ratio: 0.50
+      ports: ["深圳口岸", "广州口岸"]
+      is_core: true
+    - tier: 4
+      traffic_ratio: 1.00
+      ports: ["所有口岸"]
+      is_core: true
+  monitoring:
+    interval_seconds: 300
+    metrics:
+      declaration_failure_rate:
+        threshold: 0.05
+        description: "报关失败率阈值"
+      clearance_delay_rate:
+        threshold: 0.10
+        description: "清关延迟率阈值"
+      manifest_anomaly_rate:
+        threshold: 0.03
+        description: "舱单异常率阈值"
+  circuit_breaker:
+    auto_rollback: true
+    cooldown_seconds: 600
+
+drill:
+  schedule_cron: "0 2 1 * *"
+  description: "每月1日凌晨2点自动执行回滚演练"
+
+report:
+  weekly_cron: "0 9 * * 1"
+  formats: ["pdf", "excel"]
+  output_dir: "./reports/weekly"
+  trend_weeks: 8
+
+notification:
+  channels:
+    - type: "wecom"
+      webhook: ""
+    - type: "dingtalk"
+      webhook: ""
+    - type: "email"
+      smtp_host: ""
+      smtp_port: 465
+      sender: ""
+      recipients: []
+
+audit:
+  storage: "file"
+  immutable: true
