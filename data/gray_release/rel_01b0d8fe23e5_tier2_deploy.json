@@ -1,0 +1,41 @@
+{
+  "release_id": "rel_01b0d8fe23e5",
+  "tier": 2,
+  "version": "v2.5.0-hotfix",
+  "previous_version": "v2.4.0",
+  "ports": [
+    "上海口岸",
+    "宁波口岸"
+  ],
+  "traffic_ratio": 0.2,
+  "deployed_at": "2026-06-20T08:49:05",
+  "success": true,
+  "port_records": [
+    {
+      "release_id": "rel_01b0d8fe23e5",
+      "port_name": "上海口岸",
+      "tier": 2,
+      "version": "v2.5.0-hotfix",
+      "previous_version": "v2.4.0",
+      "deploy_started_at": "2026-06-20T08:49:05",
+      "deploy_completed_at": "2026-06-20T08:49:05",
+      "monitoring_started_at": "",
+      "monitoring_ended_at": "",
+      "rollback_completed_at": "",
+      "status": "deployed"
+    },
+    {
+      "release_id": "rel_01b0d8fe23e5",
+      "port_name": "宁波口岸",
+      "tier": 2,
+      "version": "v2.5.0-hotfix",
+      "previous_version": "v2.4.0",
+      "deploy_started_at": "2026-06-20T08:49:05",
+      "deploy_completed_at": "2026-06-20T08:49:05",
+      "monitoring_started_at": "",
+      "monitoring_ended_at": "",
+      "rollback_completed_at": "",
+      "status": "deployed"
+    }
+  ]
+}

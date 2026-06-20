@@ -1,0 +1,46 @@
+{
+  "release_id": "rel_01b0d8fe23e5",
+  "release_type": "hotfix",
+  "current_step": 0,
+  "reason": "紧急修复深圳口岸报关接口异常",
+  "hotfix_mode": "parallel",
+  "hotfix_critical_roles": [
+    "customs",
+    "tech"
+  ],
+  "post_sign_deadline": "2026-06-21T08:49:05",
+  "records": [
+    {
+      "role": "customs",
+      "approver": "customs_reviewer",
+      "status": "approved",
+      "comment": "[紧急并行审批] customs评估通过",
+      "approved_at": "2026-06-20T08:49:05",
+      "is_critical": true
+    },
+    {
+      "role": "operations",
+      "approver": "",
+      "status": "pending",
+      "comment": "",
+      "approved_at": "",
+      "is_critical": false
+    },
+    {
+      "role": "finance",
+      "approver": "",
+      "status": "pending",
+      "comment": "",
+      "approved_at": "",
+      "is_critical": false
+    },
+    {
+      "role": "tech",
+      "approver": "tech_reviewer",
+      "status": "approved",
+      "comment": "[紧急并行审批] tech评估通过",
+      "approved_at": "2026-06-20T08:49:05",
+      "is_critical": true
+    }
+  ]
+}

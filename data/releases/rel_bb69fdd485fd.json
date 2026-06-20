@@ -1,0 +1,15 @@
+{
+  "release_id": "rel_bb69fdd485fd",
+  "version": "v2.1.3-hotfix",
+  "previous_version": "v2.1.0",
+  "release_type": "hotfix",
+  "status": "check_failed",
+  "applicant": "admin_user",
+  "apply_time": "2026-06-20T08:55:18",
+  "finish_time": "",
+  "emergency_reason": "紧急修复上海口岸报关延迟问题",
+  "approval_first_at": "",
+  "approval_last_at": "",
+  "approval_duration_minutes": 0.0,
+  "port_results": {}
+}

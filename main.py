@@ -947,8 +947,14 @@ def cmd_full_flow(args, platform: ReleasePlatform):
         record_a = None
 
     if record_a and record_a.status == ReleaseStatus.CHECK_FAILED:
-        print("\n⚠️  场景A: 前置校验未通过，流程结束（阻断生效）")
-    elif record_a and record_a.status == ReleaseStatus.CHECK_PASSED:
+        print("\n" + "╔" + "═" * 68 + "╗")
+        print("║" + " " * 20 + "❌ 前置校验未通过，演示终止" + " " * 20 + "║")
+        print("╚" + "═" * 68 + "╝")
+        print()
+        print("💡 请根据上方阻断指标修复问题后，重新执行演示。")
+        print()
+        return
+    elif record_a and record_a.status in (ReleaseStatus.CHECK_PASSED, ReleaseStatus.PENDING_APPROVAL):
         print("\n✅ 前置校验通过，自动完成审批并进入灰度发布...")
         try:
             result_a = platform.auto_approve_and_release(record_a.release_id)

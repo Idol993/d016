@@ -1,0 +1,46 @@
+{
+  "release_id": "rel_b9e07046623b",
+  "release_type": "hotfix",
+  "current_step": 0,
+  "reason": "紧急修复深圳口岸HS编码匹配异常",
+  "hotfix_mode": "parallel",
+  "hotfix_critical_roles": [
+    "customs",
+    "tech"
+  ],
+  "post_sign_deadline": "2026-06-21T08:49:03",
+  "records": [
+    {
+      "role": "customs",
+      "approver": "customs_lead",
+      "status": "approved",
+      "comment": "[紧急并行]关务规则确认通过",
+      "approved_at": "2026-06-20T08:49:03",
+      "is_critical": true
+    },
+    {
+      "role": "operations",
+      "approver": "",
+      "status": "pending",
+      "comment": "",
+      "approved_at": "",
+      "is_critical": false
+    },
+    {
+      "role": "finance",
+      "approver": "",
+      "status": "pending",
+      "comment": "",
+      "approved_at": "",
+      "is_critical": false
+    },
+    {
+      "role": "tech",
+      "approver": "tech_lead",
+      "status": "approved",
+      "comment": "[紧急并行]技术方案确认通过",
+      "approved_at": "2026-06-20T08:49:03",
+      "is_critical": true
+    }
+  ]
+}

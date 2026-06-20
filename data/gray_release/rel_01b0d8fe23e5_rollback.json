@@ -1,0 +1,26 @@
+{
+  "release_id": "rel_01b0d8fe23e5",
+  "rollback_version": "v2.4.0",
+  "affected_ports": [
+    "上海口岸",
+    "宁波口岸"
+  ],
+  "rollback_started_at": "2026-06-20T08:49:05",
+  "rollback_completed_at": "2026-06-20T08:49:05",
+  "success": true,
+  "circuit_break_event": {
+    "release_id": "rel_01b0d8fe23e5",
+    "reason": "declaration_failure_rate",
+    "trigger_value": 0.1436,
+    "threshold": 0.05,
+    "affected_ports": [
+      "上海口岸",
+      "宁波口岸"
+    ],
+    "rollback_version": "v2.4.0",
+    "version": "v2.5.0-hotfix",
+    "triggered_at": "2026-06-20T08:49:05",
+    "rollback_completed_at": "2026-06-20T08:49:05",
+    "details": "口岸: 上海口岸, 检查第 1/1 次时触发熔断"
+  }
+}

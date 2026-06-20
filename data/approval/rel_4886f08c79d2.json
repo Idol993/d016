@@ -1,0 +1,46 @@
+{
+  "release_id": "rel_4886f08c79d2",
+  "release_type": "hotfix",
+  "current_step": 0,
+  "reason": "紧急修复上海口岸报关延迟问题",
+  "hotfix_mode": "parallel",
+  "hotfix_critical_roles": [
+    "customs",
+    "tech"
+  ],
+  "post_sign_deadline": "2026-06-21T08:55:18",
+  "records": [
+    {
+      "role": "customs",
+      "approver": "customs_director",
+      "status": "approved",
+      "comment": "关务合规，批准",
+      "approved_at": "2026-06-20T08:55:18",
+      "is_critical": true
+    },
+    {
+      "role": "operations",
+      "approver": "ops_manager",
+      "status": "post_signed",
+      "comment": "[事后补签] 事后补签确认，过程合规",
+      "approved_at": "2026-06-20T08:55:19",
+      "is_critical": false
+    },
+    {
+      "role": "finance",
+      "approver": "finance_manager",
+      "status": "post_signed",
+      "comment": "[事后补签] 事后补签确认，费用核算无问题",
+      "approved_at": "2026-06-20T08:55:19",
+      "is_critical": false
+    },
+    {
+      "role": "tech",
+      "approver": "tech_director",
+      "status": "approved",
+      "comment": "技术方案可行，批准",
+      "approved_at": "2026-06-20T08:55:18",
+      "is_critical": true
+    }
+  ]
+}

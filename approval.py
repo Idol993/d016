@@ -118,6 +118,18 @@ class ApprovalEngine:
 
         if flow.release_type == ReleaseType.REGULAR:
             flow.current_step = self._advance_serial_step(flow)
+        elif (
+            flow.release_type == ReleaseType.HOTFIX
+            and flow.hotfix_mode == HotfixMode.PARALLEL
+            and flow.is_critical_approved()
+        ):
+            for record in flow.records:
+                if record.status == ApprovalStatus.PENDING and not record.is_critical:
+                    record.status = ApprovalStatus.SKIPPED
+                    logger.info(
+                        "[%s] 关键角色已全部通过，非关键角色 %s 自动转为待补签",
+                        release_id, record.role.value,
+                    )
 
         self._save_flow(flow)
         return flow
